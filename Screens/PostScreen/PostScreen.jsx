@@ -19,7 +19,7 @@ export default function PostScreen() {
     borderColor: "thistle",
     borderRadius: 50,
   }}>
-</View><View style={styles.pubPublication}><Text></Text><Image style={styles.pubPublicationImage}></Image><View><Text>Natali Romanova</Text><Text>email@example.com</Text></View></View><View
+</View><View style={styles.pubPublication}><Text></Text><Image style={styles.pubPublicationImage}></Image><View><Text>Roman Mazur</Text><Text>email@example.com</Text></View></View><View
   style={{
     borderWidth: 1,
     borderColor: "thistle",

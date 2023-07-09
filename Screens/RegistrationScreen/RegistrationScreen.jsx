@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   Linking,
   TouchableOpacity,
@@ -7,11 +7,35 @@ import {
   Text,
   View,
   TouchableHighlight,
+  Keyboard
 } from "react-native";
 import { Formik } from "formik";
 import Svg, { Circle, Path } from "react-native-svg";
 
 export default function RegistrationScreen() {
+  const [showSubmitButton, setShowSubmitButton] = useState(true);
+  useEffect(() => {
+    keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      _keyboardDidShow
+    );
+    keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      _keyboardDidHide
+    );
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+  _keyboardDidShow = () => {
+    setShowSubmitButton (false) ;
+  };
+  
+  _keyboardDidHide = () => {
+    setShowSubmitButton (true);
+  };
+
   return (
     <View style={styles.containerr}>
       <View style={styles.containerForm}>
@@ -45,19 +69,20 @@ export default function RegistrationScreen() {
                 onChangeText={handleChange("password")}
                 onBlur={handleBlur("password")}
                 value={values.password}
-              />
-              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              />{showSubmitButton && <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                 <Text style={styles.text}>Зареєструватися</Text>
               </TouchableOpacity>
+              }
             </View>
           )}
         </Formik>
-        <Text
+        {showSubmitButton && <Text
           style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
           onPress={() => Linking.openURL("http://google.com")}
         >
           Вже є аккаунт? Увійти?
         </Text>
+        }
         <View style={styles.photo}>
           <TouchableHighlight onPress={() => alert("Press on Circle")}>
             <View style={styles.photoBtn} hoverStyle={styles.photoBtn_hover}>

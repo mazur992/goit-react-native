@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   Linking,
   TouchableOpacity,
@@ -6,10 +6,34 @@ import {
   StyleSheet,
   Text,
   View,
+  Keyboard,
 } from "react-native";
 import { Formik } from "formik";
 
 export default function LoginScreen() {
+  const [showSubmitButton, setShowSubmitButton] = useState(true);
+  useEffect(() => {
+    keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      _keyboardDidShow
+    );
+    keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      _keyboardDidHide
+    );
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+  
+  _keyboardDidShow = () => {
+    setShowSubmitButton (false) ;
+  };
+  
+  _keyboardDidHide = () => {
+    setShowSubmitButton (true);
+  };
   return (
     <View style={styles.containerr}>
       <View style={styles.containerForm}>
@@ -37,18 +61,20 @@ export default function LoginScreen() {
                 onBlur={handleBlur("password")}
                 value={values.password}
               />
+              {showSubmitButton && 
               <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                 <Text style={styles.text}>Увійти</Text>
-              </TouchableOpacity>
+              </TouchableOpacity>}
             </View>
           )}
         </Formik>
+        {showSubmitButton && 
         <Text
           style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
           onPress={() => Linking.openURL("http://google.com")}
         >
           Немає аккаунту? Зареєструватися?
-        </Text>
+        </Text>}
       </View>
     </View>
   );
