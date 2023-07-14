@@ -16,14 +16,15 @@ export default function App() {
   return (
     <>
       <View style={styles.container}>
-      <ImageBackground source={require('./assets/background.png')} style={styles.containerBack}>
-        
-        <StatusBar style="auto" />
-      {/* <RegistrationScreen></RegistrationScreen> */}
-      <LoginScreen></LoginScreen>
-      {/* <PostScreen></PostScreen> */}
-    
-      </ImageBackground>
+        <ImageBackground
+          source={require("./assets/background.png")}
+          style={styles.containerBack}
+        >
+          <StatusBar style="auto" />
+          <RegistrationScreen></RegistrationScreen>
+          {/* <LoginScreen></LoginScreen> */}
+          {/* <PostScreen></PostScreen> */}
+        </ImageBackground>
       </View>
     </>
   );
@@ -33,10 +34,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "flex-end",
-    height: '100%',
+    height: "100%",
   },
-  containerBack:{flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'flex-end',
-    alignItems: 'center', }
+  containerBack: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
 });

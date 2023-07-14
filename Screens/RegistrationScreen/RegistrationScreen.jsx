@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Linking,
   TouchableOpacity,
@@ -7,20 +7,29 @@ import {
   Text,
   View,
   TouchableHighlight,
-  Keyboard
+  Keyboard,
 } from "react-native";
-import { Formik } from "formik";
 import Svg, { Circle, Path } from "react-native-svg";
 
 export default function RegistrationScreen() {
   const [showSubmitButton, setShowSubmitButton] = useState(true);
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = () => {
+    console.log(`${login} + ${email} + ${password}`);
+    setLogin("");
+    setEmail("");
+    setPassword("");
+  };
   useEffect(() => {
     keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
+      "keyboardDidShow",
       _keyboardDidShow
     );
     keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
+      "keyboardDidHide",
       _keyboardDidHide
     );
     return () => {
@@ -29,60 +38,53 @@ export default function RegistrationScreen() {
     };
   }, []);
   _keyboardDidShow = () => {
-    setShowSubmitButton (false) ;
+    setShowSubmitButton(false);
   };
-  
+
   _keyboardDidHide = () => {
-    setShowSubmitButton (true);
+    setShowSubmitButton(true);
   };
 
   return (
     <View style={styles.containerr}>
       <View style={styles.containerForm}>
-        <Formik
-          initialValues={{ login: "", email: "", password: "" }}
-          onSubmit={(values) => console.log(values)}
-        >
-          {({ handleChange, handleBlur, handleSubmit, values }) => (
-            <View>
-              <Text style={styles.title}>Реєстрація</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Логін"
-                placeholderTextColor="#BDBDBD"
-                onChangeText={handleChange("login")}
-                onBlur={handleBlur("login")}
-                value={values.login}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Адреса електронної пошти"
-                placeholderTextColor="#BDBDBD"
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Пароль"
-                placeholderTextColor="#BDBDBD"
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-              />{showSubmitButton && <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.text}>Зареєструватися</Text>
-              </TouchableOpacity>
-              }
-            </View>
+        <View>
+          <Text style={styles.title}>Реєстрація</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Логін"
+            placeholderTextColor="#BDBDBD"
+            value={login}
+            onChangeText={setLogin}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Адреса електронної пошти"
+            placeholderTextColor="#BDBDBD"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Пароль"
+            placeholderTextColor="#BDBDBD"
+            value={password}
+            onChangeText={setPassword}
+          />
+          {showSubmitButton && (
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.text}>Зареєструватися</Text>
+            </TouchableOpacity>
           )}
-        </Formik>
-        {showSubmitButton && <Text
-          style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
-          onPress={() => Linking.openURL("http://google.com")}
-        >
-          Вже є аккаунт? Увійти?
-        </Text>
-        }
+        </View>
+        {showSubmitButton && (
+          <Text
+            style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
+            onPress={() => Linking.openURL("http://google.com")}
+          >
+            Вже є аккаунт? Увійти?
+          </Text>
+        )}
         <View style={styles.photo}>
           <TouchableHighlight onPress={() => alert("Press on Circle")}>
             <View style={styles.photoBtn} hoverStyle={styles.photoBtn_hover}>
