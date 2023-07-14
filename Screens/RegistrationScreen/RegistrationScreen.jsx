@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Alert,
   Linking,
   TouchableOpacity,
   TextInput,
@@ -8,6 +9,7 @@ import {
   View,
   TouchableHighlight,
   Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
 
@@ -18,6 +20,10 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
+    if (login === "" || email === "" || password === "") {
+      Alert.alert("Заповніть всі поля!");
+      return;
+    }
     console.log(`${login} + ${email} + ${password}`);
     setLogin("");
     setEmail("");
@@ -50,27 +56,32 @@ export default function RegistrationScreen() {
       <View style={styles.containerForm}>
         <View>
           <Text style={styles.title}>Реєстрація</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Логін"
-            placeholderTextColor="#BDBDBD"
-            value={login}
-            onChangeText={setLogin}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Адреса електронної пошти"
-            placeholderTextColor="#BDBDBD"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Пароль"
-            placeholderTextColor="#BDBDBD"
-            value={password}
-            onChangeText={setPassword}
-          />
+          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              style={styles.input}
+              placeholder="Логін"
+              placeholderTextColor="#BDBDBD"
+              value={login}
+              onChangeText={setLogin}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Адреса електронної пошти"
+              placeholderTextColor="#BDBDBD"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Пароль"
+              placeholderTextColor="#BDBDBD"
+              // maxLength="8"
+              value={password}
+              onChangeText={setPassword}
+            />
+          </KeyboardAvoidingView>
           {showSubmitButton && (
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
               <Text style={styles.text}>Зареєструватися</Text>

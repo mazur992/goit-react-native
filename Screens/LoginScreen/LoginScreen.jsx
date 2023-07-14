@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Alert,
   Linking,
   TouchableOpacity,
   TextInput,
@@ -7,6 +8,9 @@ import {
   Text,
   View,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 export default function LoginScreen() {
@@ -15,6 +19,10 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
+    if (email === "" || password === "") {
+      Alert.alert("Заповніть всі поля!");
+      return;
+    }
     console.log(`${email} + ${password}`);
     setEmail("");
     setPassword("");
@@ -47,21 +55,25 @@ export default function LoginScreen() {
       <View style={styles.containerForm}>
         <View>
           <Text style={styles.title}>Увійти</Text>
+          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              style={styles.input}
+              placeholder="Адреса електронної пошти"
+              placeholderTextColor="#BDBDBD"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Пароль"
+              placeholderTextColor="#BDBDBD"
+              value={password}
+              onChangeText={setPassword}
+            />
+          </KeyboardAvoidingView>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Адреса електронної пошти"
-            placeholderTextColor="#BDBDBD"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Пароль"
-            placeholderTextColor="#BDBDBD"
-            value={password}
-            onChangeText={setPassword}
-          />
           {showSubmitButton && (
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
               <Text style={styles.text}>Увійти</Text>
