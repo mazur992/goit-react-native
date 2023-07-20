@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
 
-export default function RegistrationScreen() {
+export default function RegistrationScreen({ navigation }) {
   const [showSubmitButton, setShowSubmitButton] = useState(true);
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
@@ -28,6 +28,7 @@ export default function RegistrationScreen() {
     setLogin("");
     setEmail("");
     setPassword("");
+    navigation.navigate("Home");
   };
   useEffect(() => {
     keyboardDidShowListener = Keyboard.addListener(
@@ -91,7 +92,7 @@ export default function RegistrationScreen() {
         {showSubmitButton && (
           <Text
             style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
-            onPress={() => Linking.openURL("http://google.com")}
+            onPress={() => navigation.navigate("LoginScreen")}
           >
             Вже є аккаунт? Увійти?
           </Text>

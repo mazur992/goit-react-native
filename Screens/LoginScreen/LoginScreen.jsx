@@ -13,7 +13,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [showSubmitButton, setShowSubmitButton] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +26,7 @@ export default function LoginScreen() {
     console.log(`${email} + ${password}`);
     setEmail("");
     setPassword("");
+    navigation.navigate("Home");
   };
 
   useEffect(() => {
@@ -83,7 +84,7 @@ export default function LoginScreen() {
         {showSubmitButton && (
           <Text
             style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
-            onPress={() => Linking.openURL("http://google.com")}
+            onPress={() => navigation.navigate("RegistrationScreen")}
           >
             Немає аккаунту? Зареєструватися?
           </Text>
