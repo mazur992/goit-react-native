@@ -10,6 +10,8 @@ import {
   TouchableHighlight,
   Keyboard,
   KeyboardAvoidingView,
+  ImageBackground,
+  TouchableWithoutFeedback,
 } from "react-native";
 import Svg, { Circle, Path } from "react-native-svg";
 
@@ -20,10 +22,10 @@ export default function RegistrationScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    if (login === "" || email === "" || password === "") {
-      Alert.alert("Заповніть всі поля!");
-      return;
-    }
+    // if (login === "" || email === "" || password === "") {
+    //   Alert.alert("Заповніть всі поля!");
+    //   return;
+    // }
     console.log(`${login} + ${email} + ${password}`);
     setLogin("");
     setEmail("");
@@ -53,90 +55,104 @@ export default function RegistrationScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.containerr}>
-      <View style={styles.containerForm}>
-        <View>
-          <Text style={styles.title}>Реєстрація</Text>
-          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
-            <TextInput
-              style={styles.input}
-              placeholder="Логін"
-              placeholderTextColor="#BDBDBD"
-              value={login}
-              onChangeText={setLogin}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Адреса електронної пошти"
-              placeholderTextColor="#BDBDBD"
-              value={email}
-              onChangeText={setEmail}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Пароль"
-              placeholderTextColor="#BDBDBD"
-              // maxLength="8"
-              value={password}
-              onChangeText={setPassword}
-            />
-          </KeyboardAvoidingView>
-          {showSubmitButton && (
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.text}>Зареєструватися</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        {showSubmitButton && (
-          <Text
-            style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
-            onPress={() => navigation.navigate("LoginScreen")}
-          >
-            Вже є аккаунт? Увійти?
-          </Text>
-        )}
-        <View style={styles.photo}>
-          <TouchableHighlight onPress={() => alert("Press on Circle")}>
-            <View style={styles.photoBtn} hoverStyle={styles.photoBtn_hover}>
-              <Svg
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ImageBackground
+        source={require("../../assets/background.png")}
+        style={styles.backgroundImage}
+      >
+        <View style={styles.containerr}>
+          <View style={styles.containerForm}>
+            <View>
+              <Text style={styles.title}>Реєстрація</Text>
+              <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
               >
-                <Circle
-                  cx="12.5"
-                  cy="12.5"
-                  r="12"
-                  fill="white"
-                  stroke="#FF6C00"
+                <TextInput
+                  style={styles.input}
+                  placeholder="Логін"
+                  placeholderTextColor="#BDBDBD"
+                  value={login}
+                  onChangeText={setLogin}
                 />
-                <Path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M13 6H12V12H6V13H12V19H13V13H19V12H13V6Z"
-                  fill="#FF6C00"
+                <TextInput
+                  style={styles.input}
+                  placeholder="Адреса електронної пошти"
+                  placeholderTextColor="#BDBDBD"
+                  value={email}
+                  onChangeText={setEmail}
                 />
-              </Svg>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Пароль"
+                  placeholderTextColor="#BDBDBD"
+                  // maxLength="8"
+                  value={password}
+                  onChangeText={setPassword}
+                />
+              </KeyboardAvoidingView>
+              {showSubmitButton && (
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                  <Text style={styles.text}>Зареєструватися</Text>
+                </TouchableOpacity>
+              )}
             </View>
-          </TouchableHighlight>
+            {showSubmitButton && (
+              <Text
+                style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
+                onPress={() => navigation.navigate("LoginScreen")}
+              >
+                Вже є аккаунт? Увійти?
+              </Text>
+            )}
+            <View style={styles.photo}>
+              <TouchableHighlight onPress={() => alert("Press on Circle")}>
+                <View
+                  style={styles.photoBtn}
+                  hoverStyle={styles.photoBtn_hover}
+                >
+                  <Svg
+                    width="25"
+                    height="25"
+                    viewBox="0 0 25 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <Circle
+                      cx="12.5"
+                      cy="12.5"
+                      r="12"
+                      fill="white"
+                      stroke="#FF6C00"
+                    />
+                    <Path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M13 6H12V12H6V13H12V19H13V13H19V12H13V6Z"
+                      fill="#FF6C00"
+                    />
+                  </Svg>
+                </View>
+              </TouchableHighlight>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+  },
   containerForm: {
     position: "relative",
   },
   containerr: {
-    justifyContent: "flex-end",
+    flex: 0,
+    marginTop: "auto",
 
     position: "relative",
-    // padding: 16,
     paddingLeft: 16,
     paddingRight: 16,
     borderTopLeftRadius: 25,

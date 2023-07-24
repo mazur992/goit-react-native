@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
+  ImageBackground,
 } from "react-native";
 
 export default function LoginScreen({ navigation }) {
@@ -19,10 +20,10 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    if (email === "" || password === "") {
-      Alert.alert("Заповніть всі поля!");
-      return;
-    }
+    // if (email === "" || password === "") {
+    //   Alert.alert("Заповніть всі поля!");
+    //   return;
+    // }
     console.log(`${email} + ${password}`);
     setEmail("");
     setPassword("");
@@ -52,53 +53,65 @@ export default function LoginScreen({ navigation }) {
     setShowSubmitButton(true);
   };
   return (
-    <View style={styles.containerr}>
-      <View style={styles.containerForm}>
-        <View>
-          <Text style={styles.title}>Увійти</Text>
-          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
-            <TextInput
-              style={styles.input}
-              placeholder="Адреса електронної пошти"
-              placeholderTextColor="#BDBDBD"
-              value={email}
-              onChangeText={setEmail}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Пароль"
-              placeholderTextColor="#BDBDBD"
-              value={password}
-              onChangeText={setPassword}
-            />
-          </KeyboardAvoidingView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ImageBackground
+        source={require("../../assets/background.png")}
+        style={styles.backgroundImage}
+      >
+        <View style={styles.containerr}>
+          <View style={styles.containerForm}>
+            <View>
+              <Text style={styles.title}>Увійти</Text>
+              <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+              >
+                <TextInput
+                  style={styles.input}
+                  placeholder="Адреса електронної пошти"
+                  placeholderTextColor="#BDBDBD"
+                  value={email}
+                  onChangeText={setEmail}
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Пароль"
+                  placeholderTextColor="#BDBDBD"
+                  value={password}
+                  onChangeText={setPassword}
+                />
+              </KeyboardAvoidingView>
 
-          {showSubmitButton && (
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.text}>Увійти</Text>
-            </TouchableOpacity>
-          )}
+              {showSubmitButton && (
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                  <Text style={styles.text}>Увійти</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+            {showSubmitButton && (
+              <Text
+                style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
+                onPress={() => navigation.navigate("RegistrationScreen")}
+              >
+                Немає аккаунту? Зареєструватися?
+              </Text>
+            )}
+          </View>
         </View>
-        {showSubmitButton && (
-          <Text
-            style={{ color: "blue", textAlign: "center", marginBottom: 78 }}
-            onPress={() => navigation.navigate("RegistrationScreen")}
-          >
-            Немає аккаунту? Зареєструватися?
-          </Text>
-        )}
-      </View>
-    </View>
+      </ImageBackground>
+    </TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: "cover",
+  },
   containerForm: {
     position: "relative",
   },
   containerr: {
-    justifyContent: "flex-end",
+    flex: 0,
+    marginTop: "auto",
 
     position: "relative",
     paddingLeft: 16,
