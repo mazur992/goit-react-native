@@ -3,12 +3,14 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet } from "react-native";
+
 import RegistrationScreen from "./Screens/RegistrationScreen/RegistrationScreen";
 import { useFonts } from "expo-font";
 import LoginScreen from "./Screens/LoginScreen/LoginScreen";
 import Home from "./Screens/Home/Home";
 import CreatePostsScreen from "./Screens/CreatePostsScreen/CreatePostsScreen";
-import ButtonCreate from "./components/ButtomCreate/ButtonCreate";
+import CommentsScreen from "./Screens/CommentsScreen/CommentsScreen";
+import PostScreen from "./Screens/PostScreen/PostScreen";
 
 const MainStack = createStackNavigator(); // вказує на групу навігаторів
 
@@ -44,15 +46,24 @@ export default function App() {
           component={Home}
           options={{ headerShown: false }}
         />
+
         <MainStack.Screen
           name="CreatePostsScreen"
           component={CreatePostsScreen}
           options={{ headerShown: false }}
         />
         <MainStack.Screen
-          name="ButtonCreate"
-          component={ButtonCreate}
+          name="PostScreen"
+          component={PostScreen}
           options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="CommentsScreen"
+          component={CommentsScreen}
+          options={{
+            title: "Коментарі",
+            headerTitleStyle: { marginLeft: 120 },
+          }}
         />
       </MainStack.Navigator>
     </NavigationContainer>

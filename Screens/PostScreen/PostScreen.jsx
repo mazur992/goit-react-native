@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, StyleSheet, View, Image } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 
 import {
   AntDesign,
@@ -33,15 +40,22 @@ export default function PostScreen() {
             <View style={styles.info}>
               <View style={styles.statistic}>
                 <View style={styles.statistic}>
-                  <MaterialCommunityIcons
-                    name={"comment-outline"}
+                  <TouchableOpacity
                     style={styles.icons}
-                  />
-                  <Text>{post.comments}</Text>
+                    onPress={() => Alert.alert("comments!")}
+                  >
+                    <MaterialCommunityIcons name={"comment-outline"} />
+                  </TouchableOpacity>
+                  <Text>{post.countsComments}</Text>
                 </View>
               </View>
               <View style={styles.statistic}>
-                <SimpleLineIcons name={"location-pin"} style={styles.icons} />
+                <TouchableOpacity
+                  style={styles.icons}
+                  onPress={() => Alert.alert("location!")}
+                >
+                  <SimpleLineIcons name={"location-pin"} />
+                </TouchableOpacity>
                 <Text>{post.location}</Text>
               </View>
             </View>

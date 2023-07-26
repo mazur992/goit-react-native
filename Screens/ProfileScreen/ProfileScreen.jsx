@@ -6,6 +6,8 @@ import {
   ImageBackground,
   TouchableWithoutFeedback,
   Image,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
 
 import {
@@ -26,19 +28,23 @@ export default function ProfileScreen() {
       >
         <View style={styles.container}>
           <View style={styles.photo}>
-            <MaterialCommunityIcons
+            <TouchableOpacity
               style={styles.avatarIcon}
-              name="close-circle-outline"
-              size={25}
-              color="#BDBDBD"
-            />
+              onPress={() => Alert.alert("видалення картинки!")}
+            >
+              <MaterialCommunityIcons
+                name="close-circle-outline"
+                size={25}
+                color="#BDBDBD"
+              />
+            </TouchableOpacity>
           </View>
-          <Ionicons
+          <TouchableOpacity
             style={styles.iconExit}
-            name="md-exit-outline"
-            size={24}
-            color="#BDBDBD"
-          />
+            onPress={() => Alert.alert("вихід з аккаунту!")}
+          >
+            <Ionicons name="md-exit-outline" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
           <View>
             <Text style={styles.title}>Roman Mazur</Text>
           </View>
@@ -55,22 +61,31 @@ export default function ProfileScreen() {
                 <View style={styles.info}>
                   <View style={styles.statistic}>
                     <View style={styles.statistic}>
-                      <MaterialCommunityIcons
-                        name={"comment-outline"}
+                      <TouchableOpacity
                         style={styles.icons}
-                      />
-                      <Text>{post.comments}</Text>
+                        onPress={() => Alert.alert("comments!")}
+                      >
+                        <MaterialCommunityIcons name={"comment-outline"} />
+                      </TouchableOpacity>
+                      <Text>{post.countsComments}</Text>
                     </View>
                     <View style={styles.statistic}>
-                      <AntDesign name={"like2"} style={styles.icons} />
+                      <TouchableOpacity
+                        style={styles.icons}
+                        onPress={() => Alert.alert("add/remove like!")}
+                      >
+                        <AntDesign name={"like2"} />
+                      </TouchableOpacity>
                       <Text>{post.likes}</Text>
                     </View>
                   </View>
                   <View style={styles.statistic}>
-                    <SimpleLineIcons
-                      name={"location-pin"}
+                    <TouchableOpacity
                       style={styles.icons}
-                    />
+                      onPress={() => Alert.alert("location!")}
+                    >
+                      <SimpleLineIcons name={"location-pin"} />
+                    </TouchableOpacity>
                     <Text>{post.location}</Text>
                   </View>
                 </View>

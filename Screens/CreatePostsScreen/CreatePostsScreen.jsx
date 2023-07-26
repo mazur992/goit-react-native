@@ -7,6 +7,9 @@ import {
   Platform,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -17,68 +20,89 @@ export default function CreatePostsScreen({ navigation }) {
   const [location, setLocation] = useState("");
 
   const handleSubmit = () => {
-    // if (name === "" || location === "") {
-    //   Alert.alert("Заповніть всі поля!");
-    //   return;
-    // }
+    if (name === "" || location === "") {
+      Alert.alert("Заповніть всі поля!");
+      return;
+    }
+
     console.log(`${name} + ${location}`);
     setName("");
     setLocation("");
   };
-  return (
-    <View style={{ padding: 16, backgroundColor: "#ffffff" }}>
-      <View style={styles.photo}>
-        <View style={styles.photoIconContainer}>
-          <MaterialIcons
-            style={styles.photoIcon}
-            name="photo-camera"
-            size={24}
-            color="#BDBDBD"
-          />
-        </View>
-      </View>
-      <Text>Завантажте фото</Text>
-      <View style={styles.containerr}>
-        <View style={styles.containerForm}>
-          <View>
-            <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
-            >
-              <TextInput
-                style={styles.input}
-                placeholder="Назва..."
-                placeholderTextColor="#BDBDBD"
-                value={name}
-                onChangeText={setName}
-              />
-              <View style={{ position: "relative" }}>
-                <TextInput
-                  style={styles.inputIconLocation}
-                  placeholder="Місцевість..."
-                  placeholderTextColor="#BDBDBD"
-                  value={location}
-                  onChangeText={setLocation}
-                />
-                <SimpleLineIcons
-                  name={"location-pin"}
-                  size={24}
-                  color="#BDBDBD"
-                  style={styles.icons}
-                />
-              </View>
-            </KeyboardAvoidingView>
 
-            <TouchableOpacity
-              // disabled={true}
-              style={styles.button}
-              onPress={handleSubmit}
-            >
-              <Text style={styles.text}>Опублікувати</Text>
-            </TouchableOpacity>
+  const areAllFieldsFilled = () => {
+    return name.trim() !== "" && location.trim() !== "";
+  };
+  const buttonStyles = areAllFieldsFilled()
+    ? styles.buttonFilled
+    : styles.buttonEmpty;
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{ padding: 16, backgroundColor: "#ffffff", flex: 1 }}>
+        <TouchableOpacity onPress={() => Alert.alert("загрузка картинки!")}>
+          <View style={styles.photo}>
+            <View style={styles.photoIconContainer}>
+              <MaterialIcons
+                style={styles.photoIcon}
+                name="photo-camera"
+                size={24}
+                color="#BDBDBD"
+              />
+            </View>
+          </View>
+        </TouchableOpacity>
+        <Text style={{ color: "#BDBDBD" }}>Завантажте фото</Text>
+        <View style={styles.containerr}>
+          <View style={styles.containerForm}>
+            <View>
+              <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+              >
+                <TextInput
+                  style={styles.input}
+                  placeholder="Назва..."
+                  placeholderTextColor="#BDBDBD"
+                  value={name}
+                  onChangeText={setName}
+                />
+              </KeyboardAvoidingView>
+
+              <View style={{ position: "relative" }}>
+                <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                  behavior={Platform.OS == "ios" ? "padding" : "height"}
+                >
+                  <TextInput
+                    style={styles.inputIconLocation}
+                    placeholder="Місцевість..."
+                    placeholderTextColor="#BDBDBD"
+                    value={location}
+                    onChangeText={setLocation}
+                  />
+                </KeyboardAvoidingView>
+                <TouchableOpacity
+                  style={styles.icons}
+                  onPress={() => Alert.alert("вибрати на карті!")}
+                >
+                  <SimpleLineIcons
+                    name={"location-pin"}
+                    size={24}
+                    color="#BDBDBD"
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity
+                // disabled={true}
+                style={[styles.button, buttonStyles]}
+                onPress={handleSubmit}
+              >
+                <Text style={styles.text}>Опублікувати</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -151,8 +175,14 @@ const styles = StyleSheet.create({
     height: 51,
     marginTop: 43,
     marginBottom: 16,
-    backgroundColor: "#F6F6F6",
     borderRadius: 100,
+    // backgroundColor: "#F6F6F6",
+  },
+  buttonEmpty: {
+    backgroundColor: "#F6F6F6", // Колір фону кнопки, коли не всі поля заповнені
+  },
+  buttonFilled: {
+    backgroundColor: "#FF6C00", // Колір фону кнопки, коли всі поля заповнені
   },
   text: {
     color: "#BDBDBD",

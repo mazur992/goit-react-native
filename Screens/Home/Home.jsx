@@ -10,8 +10,7 @@ import CreatePostsScreen from "../CreatePostsScreen/CreatePostsScreen";
 
 const Tabs = createBottomTabNavigator();
 
-const Home = () => {
-  const [isShowCreatePost, setIsShowCreatePost] = useState(false);
+export default function Home() {
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
@@ -42,17 +41,15 @@ const Home = () => {
         },
       })}
     >
-      {!isShowCreatePost && (
-        <Tabs.Screen
-          name="PostScreen"
-          component={PostScreen}
-          options={{
-            tabBarShowLabel: false,
-            title: "Публікації",
-            headerTitleStyle: { marginLeft: 120 },
-          }}
-        />
-      )}
+      <Tabs.Screen
+        name="PostScreen"
+        component={PostScreen}
+        options={{
+          tabBarShowLabel: false,
+          title: "Публікації",
+          headerTitleStyle: { marginLeft: 120 },
+        }}
+      />
 
       <Tabs.Screen
         name="CreatePostsScreen"
@@ -62,16 +59,14 @@ const Home = () => {
           title: "Створити публікацію",
         }}
       />
-      {!isShowCreatePost && (
-        <Tabs.Screen
-          name="ProfileScreen"
-          component={ProfileScreen}
-          options={{ headerShown: false, tabBarShowLabel: false }}
-        />
-      )}
+      <Tabs.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        options={{ headerShown: false, tabBarShowLabel: false }}
+      />
     </Tabs.Navigator>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -80,5 +75,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default Home;
