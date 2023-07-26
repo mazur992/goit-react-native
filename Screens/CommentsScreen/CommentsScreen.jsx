@@ -10,12 +10,7 @@ import {
   Alert,
 } from "react-native";
 
-import {
-  AntDesign,
-  MaterialCommunityIcons,
-  SimpleLineIcons,
-  Ionicons,
-} from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import moment from "moment";
 import "moment/locale/uk";
@@ -153,7 +148,6 @@ const styles = StyleSheet.create({
   commentText: {
     fontSize: 13,
     lineHeight: 18,
-    // flexWrap: "wrap",
   },
   date: { color: "#BDBDBD" },
   authorDate: { textAlign: "right" },

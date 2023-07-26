@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
   },
 
   photo: {
-    // position: "absolute",
     position: "relative",
     top: -61,
     left: "50%",

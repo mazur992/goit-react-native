@@ -20,10 +20,10 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    // if (email === "" || password === "") {
-    //   Alert.alert("Заповніть всі поля!");
-    //   return;
-    // }
+    if (email === "" || password === "") {
+      Alert.alert("Заповніть всі поля!");
+      return;
+    }
     console.log(`${email} + ${password}`);
     setEmail("");
     setPassword("");

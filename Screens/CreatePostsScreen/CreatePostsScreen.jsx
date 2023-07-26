@@ -11,9 +11,7 @@ import {
   Keyboard,
   Alert,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-
-import { SimpleLineIcons } from "@expo/vector-icons";
+import { MaterialIcons, SimpleLineIcons } from "@expo/vector-icons";
 
 export default function CreatePostsScreen({ navigation }) {
   const [name, setName] = useState("");
