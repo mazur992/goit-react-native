@@ -7,6 +7,7 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import PostScreen from "../PostScreen/PostScreen";
 import CreatePostsScreen from "../CreatePostsScreen/CreatePostsScreen";
+import Camerun from "../Camerun";
 
 const Tabs = createBottomTabNavigator();
 
@@ -61,7 +62,9 @@ export default function Home() {
       />
       <Tabs.Screen
         name="ProfileScreen"
+        // name="Camerun"
         component={ProfileScreen}
+        // component={Camerun}
         options={{ headerShown: false, tabBarShowLabel: false }}
       />
     </Tabs.Navigator>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,11 +11,31 @@ import {
   Keyboard,
   Alert,
 } from "react-native";
+import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
 import { MaterialIcons, SimpleLineIcons } from "@expo/vector-icons";
 
 export default function CreatePostsScreen({ navigation }) {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
+  const [hasPermission, setHasPermission] = useState(null);
+  const [cameraRef, setCameraRef] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
 
   const handleSubmit = () => {
     if (name === "" || location === "") {
@@ -37,18 +57,47 @@ export default function CreatePostsScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ padding: 16, backgroundColor: "#ffffff", flex: 1 }}>
-        <TouchableOpacity onPress={() => Alert.alert("загрузка картинки!")}>
-          <View style={styles.photo}>
-            <View style={styles.photoIconContainer}>
-              <MaterialIcons
-                style={styles.photoIcon}
-                name="photo-camera"
-                size={24}
-                color="#BDBDBD"
-              />
+        <View style={styles.photo}>
+          <Camera style={styles.camera} type={type} ref={setCameraRef}>
+            <View style={styles.containerFlip}>
+              <TouchableOpacity
+                onPress={() => {
+                  setType(
+                    type === Camera.Constants.Type.back
+                      ? Camera.Constants.Type.front
+                      : Camera.Constants.Type.back
+                  );
+                }}
+              >
+                <MaterialIcons
+                  name="flip-camera-android"
+                  size={24}
+                  color="white"
+                />
+              </TouchableOpacity>
             </View>
-          </View>
-        </TouchableOpacity>
+            <View style={styles.photoIconContainer}>
+              <TouchableOpacity
+                style={styles.btn}
+                onPress={async () => {
+                  if (cameraRef) {
+                    const { uri } = await cameraRef.takePictureAsync();
+                    await MediaLibrary.createAssetAsync(uri);
+                  }
+                }}
+              >
+                <View style={styles.relativeContainer}>
+                  <MaterialIcons
+                    style={styles.photoIcon}
+                    name="photo-camera"
+                    size={24}
+                    color="#BDBDBD"
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+          </Camera>
+        </View>
         <Text style={{ color: "#BDBDBD" }}>Завантажте фото</Text>
         <View style={styles.containerr}>
           <View style={styles.containerForm}>
@@ -109,8 +158,14 @@ const styles = StyleSheet.create({
     position: "relative",
     width: 343,
     height: 240,
-    backgroundColor: "#E8E8E8",
+    // backgroundColor: "#E8E8E8",
   },
+  containerFlip: { position: "absolute", top: "75%", left: "75%" },
+  camera: { flex: 1 },
+
+  btn: { alignSelf: "center" },
+
+  relativeContainer: { position: "relative", height: "100%" },
   photoIconContainer: {
     position: "absolute",
     top: "50%",
@@ -118,7 +173,9 @@ const styles = StyleSheet.create({
     transform: [{ translateX: -30 }, { translateY: -30 }],
     width: 60,
     height: 60,
-    backgroundColor: "#ffffff",
+    // backgroundColor: "transparent",
+    backgroundColor: "rgba(255,255,255,0.6)",
+
     borderRadius: 30,
   },
   photoIcon: {
