@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -16,8 +16,11 @@ import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 
 import { MaterialIcons, SimpleLineIcons } from "@expo/vector-icons";
+import AppContext from "../../components/AppContext/AppContext";
 
 export default function CreatePostsScreen({ navigation }) {
+  const { isActiveCreatePost, setIsActiveCreatePost } = useContext(AppContext);
+
   const [name, setName] = useState("");
   const [locationField, setLocationField] = useState("");
   const [location, setLocation] = useState({ latitude: "", longitude: "" });
@@ -27,6 +30,7 @@ export default function CreatePostsScreen({ navigation }) {
 
   useEffect(() => {
     (async () => {
+      setIsActiveCreatePost(true);
       const { status } = await Camera.requestCameraPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
 
@@ -55,6 +59,7 @@ export default function CreatePostsScreen({ navigation }) {
     setName("");
     setLocationField("");
     setLocation({ latitude: "", longitude: "" });
+    setIsActiveCreatePost(false);
     navigation.navigate("PostScreen");
   };
   const areAllFieldsFilled = () => {

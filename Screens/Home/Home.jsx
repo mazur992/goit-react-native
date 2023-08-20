@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -7,10 +7,11 @@ import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import PostScreen from "../PostScreen/PostScreen";
 import CreatePostsScreen from "../CreatePostsScreen/CreatePostsScreen";
+import AppContext from "../../components/AppContext/AppContext";
 
 const Tabs = createBottomTabNavigator();
-
 export default function Home() {
+  const { isActiveCreatePost, setIsActiveCreatePost } = useContext(AppContext);
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
@@ -18,6 +19,8 @@ export default function Home() {
           let iconName;
           if (route.name === "PostScreen") {
             iconName = focused ? "home-group" : "home-group";
+            if (focused) {
+            }
             return (
               <MaterialCommunityIcons
                 name={iconName}
@@ -27,6 +30,8 @@ export default function Home() {
             );
           } else if (route.name === "CreatePostsScreen") {
             iconName = focused ? "delete-outline" : "plus";
+            if (focused) {
+            }
 
             return (
               <MaterialCommunityIcons
@@ -36,20 +41,24 @@ export default function Home() {
               />
             );
           } else if (route.name === "ProfileScreen") {
+            if (focused) {
+            }
             return <AntDesign name={"user"} size={size} color={color} />;
           }
         },
       })}
     >
-      <Tabs.Screen
-        name="PostScreen"
-        component={PostScreen}
-        options={{
-          tabBarShowLabel: false,
-          title: "Публікації",
-          headerTitleStyle: { marginLeft: 120 },
-        }}
-      />
+      {!isActiveCreatePost && (
+        <Tabs.Screen
+          name="PostScreen"
+          component={PostScreen}
+          options={{
+            tabBarShowLabel: false,
+            title: "Публікації",
+            headerTitleStyle: { marginLeft: 120 },
+          }}
+        />
+      )}
 
       <Tabs.Screen
         name="CreatePostsScreen"
@@ -57,13 +66,16 @@ export default function Home() {
         options={{
           tabBarShowLabel: false,
           title: "Створити публікацію",
+          tabBarVisible: false,
         }}
       />
-      <Tabs.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
-        options={{ headerShown: false, tabBarShowLabel: false }}
-      />
+      {!isActiveCreatePost && (
+        <Tabs.Screen
+          name="ProfileScreen"
+          component={ProfileScreen}
+          options={{ headerShown: false, tabBarShowLabel: false }}
+        />
+      )}
     </Tabs.Navigator>
   );
 }
