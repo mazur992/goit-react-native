@@ -17,7 +17,7 @@ import {
 
 import posts from "../../assets/posts.json";
 
-export default function PostScreen() {
+export default function PostScreen({ navigation }) {
   return (
     <View style={{ flex: 0, padding: 16 }}>
       <View style={styles.pubPublication}>
@@ -42,7 +42,7 @@ export default function PostScreen() {
                 <View style={styles.statistic}>
                   <TouchableOpacity
                     style={styles.icons}
-                    onPress={() => Alert.alert("comments!")}
+                    onPress={() => navigation.navigate("CommentsScreen")}
                   >
                     <MaterialCommunityIcons name={"comment-outline"} />
                   </TouchableOpacity>
@@ -52,7 +52,7 @@ export default function PostScreen() {
               <View style={styles.statistic}>
                 <TouchableOpacity
                   style={styles.icons}
-                  onPress={() => Alert.alert("location!")}
+                  onPress={() => navigation.navigate("MapScreen")}
                 >
                   <SimpleLineIcons name={"location-pin"} />
                 </TouchableOpacity>

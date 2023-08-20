@@ -11,6 +11,7 @@ import Home from "./Screens/Home/Home";
 import CreatePostsScreen from "./Screens/CreatePostsScreen/CreatePostsScreen";
 import CommentsScreen from "./Screens/CommentsScreen/CommentsScreen";
 import PostScreen from "./Screens/PostScreen/PostScreen";
+import MapScreen from "./Screens/MapScreen/MapScreen";
 
 const MainStack = createStackNavigator(); // вказує на групу навігаторів
 
@@ -48,6 +49,15 @@ export default function App() {
             headerShown: true,
             title: "Коментарі",
             headerTitleStyle: { marginLeft: 120 },
+          }}
+        />
+        <MainStack.Screen
+          name="MapScreen"
+          component={MapScreen}
+          options={{
+            headerShown: true,
+            title: "Map",
+            headerTitleStyle: { marginLeft: 100 },
           }}
         />
       </MainStack.Navigator>

@@ -13,11 +13,14 @@ import {
 } from "react-native";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
+import * as Location from "expo-location";
+
 import { MaterialIcons, SimpleLineIcons } from "@expo/vector-icons";
 
 export default function CreatePostsScreen({ navigation }) {
   const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
+  const [locationField, setLocationField] = useState("");
+  const [location, setLocation] = useState({ latitude: "", longitude: "" });
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -37,19 +40,25 @@ export default function CreatePostsScreen({ navigation }) {
     return <Text>No access to camera</Text>;
   }
 
-  const handleSubmit = () => {
-    if (name === "" || location === "") {
+  const handleSubmit = async () => {
+    if (name === "" || locationField === "") {
       Alert.alert("Заповніть всі поля!");
       return;
     }
-
-    console.log(`${name} + ${location}`);
+    let locationCoords = await Location.getCurrentPositionAsync({});
+    await setLocation({
+      ...location,
+      latitude: locationCoords.coords.latitude,
+      longitude: locationCoords.coords.longitude,
+    });
+    console.log(`${name} + ${locationField} + ${JSON.stringify(location)}`);
     setName("");
-    setLocation("");
+    setLocationField("");
+    setLocation({ latitude: "", longitude: "" });
+    navigation.navigate("PostScreen");
   };
-
   const areAllFieldsFilled = () => {
-    return name.trim() !== "" && location.trim() !== "";
+    return name.trim() !== "" && locationField.trim() !== "";
   };
   const buttonStyles = areAllFieldsFilled()
     ? styles.buttonFilled
@@ -122,14 +131,11 @@ export default function CreatePostsScreen({ navigation }) {
                     style={styles.inputIconLocation}
                     placeholder="Місцевість..."
                     placeholderTextColor="#BDBDBD"
-                    value={location}
-                    onChangeText={setLocation}
+                    value={locationField}
+                    onChangeText={setLocationField}
                   />
                 </KeyboardAvoidingView>
-                <TouchableOpacity
-                  style={styles.icons}
-                  onPress={() => Alert.alert("вибрати на карті!")}
-                >
+                <TouchableOpacity style={styles.icons}>
                   <SimpleLineIcons
                     name={"location-pin"}
                     size={24}
